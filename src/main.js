@@ -12,6 +12,7 @@ const customTag = document.querySelector('#customTag');
 const tag = document.querySelector('#tag');
 
 let timer; // 전역 변수로 timer 선언
+const NOTIFICATION_SHOW_TIME = 2 * 1000; // 2초
 
 window.onload = () => {
     console.log('Newline formatting tool - v1.0');
@@ -74,7 +75,7 @@ window.onload = () => {
  * 4. 개행 문자를 특정 태그로 감싸기 (<p>, <div>, ...) (모든 개행 문자를 선택한 태그로 변환합니다)
  * 5. 개행 문자를 \r\n, \n, \\r\\n, \\n 등 선택한 문자열로 변환 (모든 개행 문자를 선택한 문자열로 변환합니다)
  */
-function formatString() {
+async function formatString() {
     let text = input.value;
     const option = document.querySelector('input[name="option"]:checked').value;
     const trimOption = document.querySelector('input[name="trimOption"]:checked').value;
@@ -131,10 +132,8 @@ function formatString() {
     localStorage.setItem('formattedText', formattedText);
     // Show save notification
     saveNotification.style.display = 'block';
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-        saveNotification.style.display = 'none';
-    }, 2000);
+    await delay(NOTIFICATION_SHOW_TIME);
+    saveNotification.style.display = 'none';
 }
 
 // 2. 버튼 클릭 시 클립보드로 복사
@@ -160,4 +159,9 @@ function debounce(func, wait) {
             func.apply(this, arguments);
         }, wait);
     };
+}
+
+// Delay 함수
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
