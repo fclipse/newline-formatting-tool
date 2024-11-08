@@ -14,6 +14,13 @@ window.onload = () => {
 
     // Focus the input field
     input.focus();
+
+    // Load saved text from localStorage
+    const savedText = localStorage.getItem('formattedText');
+    if (savedText) {
+        output.value = savedText;
+    }
+
     // Add event listener to format button
     formatButton.addEventListener('click', formatString);
     // Add event listener to copy button
@@ -31,6 +38,7 @@ window.onload = () => {
     // 2. input 및 option 값 바뀌면 caption 숨기게
     input.addEventListener('input', () => {
         caption.style.display = 'none';
+        formatString(); // 실시간 미리보기
     });
     option.forEach((radio) => {
         radio.addEventListener('change', () => {
@@ -46,6 +54,7 @@ window.onload = () => {
             } else {
                 customTag.disabled = true;
             }
+            formatString(); // 실시간 미리보기
         });
     });
 };
@@ -111,6 +120,9 @@ function formatString() {
     }
 
     output.value = formattedText;
+
+    // Save formatted text to localStorage
+    localStorage.setItem('formattedText', formattedText);
 }
 
 // 2. 버튼 클릭 시 클립보드로 복사
