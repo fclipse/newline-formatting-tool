@@ -6,20 +6,17 @@ textarea {
     width: 100%;
     border: 1px solid #ccc;
     padding: 10px;
-    /* margin-top: 10px; */
     resize: vertical;
     background-color: #1a202c;
     border-width: 4px;
     outline: none;
-
     border-radius: 8px; /* 원하는 radius 값 */
-    padding: 10px; /* 원하는 padding 값 */
     box-sizing: border-box;
 }
 textarea:focus {
     border-color: #3b82f6; /* Tailwind's blue-500 */
 }
-code, pre{
+code, pre {
     color: #f8f8f2;
     background-color: #44475a;
     padding: 2px 4px;

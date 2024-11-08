@@ -19,7 +19,6 @@ window.onload = () => {
     // Add event listener to copy button
     copyButton.addEventListener('click', copyToClipboard);
     // 1. 포맷 버튼 클릭시 formString() 함수 실행 및 caption 보이게
-    formatButton.addEventListener('click', formatString);
     formatButton.addEventListener('click', () => {
         if (input.value === '') {
             caption.textContent = '입력된 텍스트가 없습니다.';
@@ -117,8 +116,6 @@ function formatString() {
 // 2. 버튼 클릭 시 클립보드로 복사
 function copyToClipboard() {
     output.select();
-    // document.execCommand('copy');
     navigator.clipboard.writeText(output.value);
-    // alert('복사되었습니다.');
     caption.textContent = '복사되었습니다.';
 }
