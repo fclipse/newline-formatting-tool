@@ -3,11 +3,15 @@ const input = document.querySelector('#input');
 const output = document.querySelector('#output');
 const formatButton = document.querySelector('#formatButton');
 const copyButton = document.querySelector('#copyButton');
+const clearStorageButton = document.querySelector('#clearStorageButton');
 const caption = document.querySelector('#caption');
+const saveNotification = document.querySelector('#saveNotification');
 const option = document.querySelectorAll('input[name="option"]');
 
 const customTag = document.querySelector('#customTag');
 const tag = document.querySelector('#tag');
+
+let timer; // 전역 변수로 timer 선언
 
 window.onload = () => {
     console.log('Newline formatting tool - v1.0');
@@ -25,6 +29,8 @@ window.onload = () => {
     formatButton.addEventListener('click', formatString);
     // Add event listener to copy button
     copyButton.addEventListener('click', copyToClipboard);
+    // Add event listener to clear storage button
+    clearStorageButton.addEventListener('click', clearLocalStorage);
     // 1. 포맷 버튼 클릭시 formString() 함수 실행 및 caption 보이게
     formatButton.addEventListener('click', () => {
         if (input.value === '') {
@@ -38,7 +44,7 @@ window.onload = () => {
     // 2. input 및 option 값 바뀌면 caption 숨기게
     input.addEventListener('input', () => {
         caption.style.display = 'none';
-        formatString(); // 실시간 미리보기
+        debounce(formatString, 300)(); // 실시간 미리보기
     });
     option.forEach((radio) => {
         radio.addEventListener('change', () => {
@@ -54,7 +60,7 @@ window.onload = () => {
             } else {
                 customTag.disabled = true;
             }
-            formatString(); // 실시간 미리보기
+            debounce(formatString, 300)(); // 실시간 미리보기
         });
     });
 };
@@ -123,6 +129,12 @@ function formatString() {
 
     // Save formatted text to localStorage
     localStorage.setItem('formattedText', formattedText);
+    // Show save notification
+    saveNotification.style.display = 'block';
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        saveNotification.style.display = 'none';
+    }, 2000);
 }
 
 // 2. 버튼 클릭 시 클립보드로 복사
@@ -130,4 +142,22 @@ function copyToClipboard() {
     output.select();
     navigator.clipboard.writeText(output.value);
     caption.textContent = '복사되었습니다.';
+}
+
+// 3. localStorage 비우기
+function clearLocalStorage() {
+    localStorage.removeItem('formattedText');
+    output.value = '';
+    caption.textContent = '저장된 텍스트가 비워졌습니다.';
+    caption.style.display = 'block';
+}
+
+// Debounce 함수
+function debounce(func, wait) {
+    return function () {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(this, arguments);
+        }, wait);
+    };
 }
