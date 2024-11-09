@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <!-- <link rel="stylesheet" href="src/input.css"> -->
     <link rel="stylesheet" href="src/output.css">
-    </head>
+</head>
 
 <body class="flex flex-col justify-center max-w-screen-lg mx-auto p-4 bg-[#1a202c] text-[#f8f8f2]">
     <header class="mb-6">
@@ -22,11 +22,11 @@
         <h2 class="text-2xl font-bold mb-4">포맷팅 옵션</h2>
         <div class="mb-2">
             <input type="radio" id="option1" name="option" value="1" checked>
-            <label for="option1">1. 개행 문자 제거</label>
+            <label for="option1">1. 텍스트 개행 문자(<code>\\r\\n</code>, <code>\\n</code>, <code>\r\n</code>, <code>\r</code>)를 실제 줄바꿈으로 변환</label>
         </div>
         <div class="mb-2">
             <input type="radio" id="option2" name="option" value="2">
-            <label for="option2">2. 텍스트 개행 문자(<code>\\r\\n</code>, <code>\\n</code>, <code>\r\n</code>, <code>\r</code>)를 실제 줄바꿈으로 변환</label>
+            <label for="option2">2. 개행 문자 제거</label>
         </div>
         <div class="mb-2">
             <input type="radio" id="option3" name="option" value="3">
@@ -47,14 +47,9 @@
         <div class="flex flex-wrap justify-between gap-2">
             <div>
                 <input type="radio" id="option5" name="option" value="5">
-                <label for="option5">5. 개행 문자를 선택한 문자열로 변환</label>
+                <label for="option5">5. 개행 문자를 입력한 문자열로 변환</label>
             </div>
-            <select id="customTag" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
-                <option value="rn">\r\n</option>
-                <option value="n">\n</option>
-                <option value="literal_rn">실제 줄바꿈 (CRLF)</option>
-                <option value="literal_n">실제 줄바꿈 (LF)</option>
-            </select>
+            <input type="text" id="customTag" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
         </div>
     </section>
     <!-- input section -->
@@ -78,19 +73,20 @@
                 </span>
             </fieldset>
         </header>
-        </header>
         <!-- input -->
         <textarea id="input" rows="10" placeholder="문자를 입력하세요..."></textarea>
         <div class="flex justify-center gap-4">
             <button id="formatButton" class="p-2 rounded-md border-2 border-blue-500 active:bg-blue-500 active:text-white">포맷팅</button>
             <button id="copyButton" class="p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-500 hover:border-blue-500 active:bg-blue-500 active:text-white">결과 복사</button>
+            <button id="clearStorageButton" class="p-2 rounded-md border-2 border-red-500 focus:outline-none focus:border-red-500 hover:border-red-500 active:bg-red-500 active:text-white">저장된 텍스트 비우기</button>
         </div>
+        <p id="saveNotification" class="hidden text-center font-semibold p-2 rounded-md border-2 border-green-500 text-green-500">임시 저장되었습니다. <br>새로고침해도 결과 텍스트는 유지됩니다.</p>
     </section>
     <!-- output section -->
     <section class="mb-6">
         <header class="flex justify-between items-center mb-4 gap-4">
-                <h2 class="text-2xl font-bold">결과</h2>
-                <p id="caption" class="hidden text-center font-semibold p-2 rounded-md border-2"></p>
+            <h2 class="text-2xl font-bold">결과</h2>
+            <p id="caption" class="hidden text-center font-semibold p-2 rounded-md border-2"></p>
         </header>
         <!-- output -->
         <textarea id="output" rows="10" placeholder="여기에 결과가 표시됩니다."></textarea>
@@ -100,9 +96,8 @@
         <p class="text-lg">© 2024. Developed by SeongJunHan</p>
         <!-- github issue로 문의 -->
         <p>버그제보/문의: <a href="https://github.com/fclipse/newline-formatting-tool/issues" class="text-blue-500">Github Issues</a></p>
-        <p>사용된 오픈소스 목록 - <a href="https://github.com/fclipse/newline-formatting-tool/" class="text-blue-500">Github</a>
-            <pre>TailwindCSS</pre>
-        </p>
+        <p>사용된 오픈소스 목록 - <a href="https://github.com/fclipse/newline-formatting-tool/" class="text-blue-500">Github</a></p>
+        <pre>TailwindCSS</pre>
     </footer>
     <script src="src/main.js"></script>
 </body>
