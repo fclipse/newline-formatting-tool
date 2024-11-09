@@ -71,27 +71,14 @@
 
 3. 코드를 수정합니다.
 
-4. 수정이 완료됐다면 tailwind css를 build합니다
+4. 수정이 완료됐다면 tailwind css를 build하고, dist 폴더에 결과물들을 저장합니다.
     - 이 단계에 왔다면 위의 watch 명령어를 종료하고, 아래의 명령어를 실행합니다.
 
     ```bash
-    npx tailwindcss -i ./src/style.css -o ./src/output.css --minify
+    ./deployDist
     ```
 
-5. dist 폴더에 결과물들을 저장합니다.
-    - Windows
-
-    ```bash
-    ./makeDistFiles
-    ```
-
-    - Mac/Linux
-
-    ```bash
-    ./makeDistFiles.sh
-    ```
-
-6. 변경 사항을 커밋하고 푸시합니다.
+5. 변경 사항을 커밋하고 푸시합니다.
 
     ```bash
     git add .
@@ -99,7 +86,7 @@
     git push
     ```
 
-7. 새로운 풀 리퀘스트를 생성합니다.
+6. 새로운 풀 리퀘스트를 생성합니다.
 
 ## 개발 환경
 
