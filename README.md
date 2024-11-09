@@ -75,7 +75,13 @@
     - 이 단계에 왔다면 위의 watch 명령어를 종료하고, 아래의 명령어를 실행합니다.
 
     ```bash
-    ./deployDist
+    deployDist
+    ```
+
+    - 또는
+
+    ```bash
+    ./deployDist.bat
     ```
 
 5. 변경 사항을 커밋하고 푸시합니다.
