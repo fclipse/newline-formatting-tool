@@ -47,7 +47,20 @@ window.onload = () => {
     // 2. input 및 option 값 바뀌면 caption 숨기게
     input.addEventListener('input', debounce(formatString, 300, 'formatString')); // Debounce 적용
     option.forEach((radio) => {
-        radio.addEventListener('change', debounce(formatString, 300, 'formatString')); // Debounce 적용
+        radio.addEventListener('change', () => {
+            caption.style.display = 'none';
+            debounce(formatString, 300, 'formatString')(); // Debounce 적용
+            if (radio.value === '4') {
+                tag.disabled = false;
+            } else {
+                tag.disabled = true;
+            }
+            if (radio.value === '5') {
+                customTag.disabled = false;
+            } else {
+                customTag.disabled = true;
+            }
+        });
     });
 };
 
@@ -113,15 +126,19 @@ async function formatString() {
 
     output.value = formattedText;
 
-    // Save formatted text to localStorage
+    // 로컬 스토리지로 포맷된 결과 저장
     localStorage.setItem('formattedText', formattedText);
-    // Show save notification
+    // save notification 보여주기
     saveNotification.style.display = 'block';
+    // 결과가 생성되었습니다 caption 보여주기
+    caption.textContent = '결과가 생성되었습니다.';
+    caption.style.display = 'block';
 
-    // 4초 후에 숨기기
+    // 2.5초 후에 숨기기
+    let saveNotificationShowTime = 2.5 * 1000;
     debounce(() => {
         saveNotification.style.display = 'none';
-    }, 4000, 'saveNotification')();
+    }, saveNotificationShowTime, 'saveNotification')();
 }
 
 // 2. 버튼 클릭 시 클립보드로 복사
