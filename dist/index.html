@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개행 문자 포맷팅 도구</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- <link rel="stylesheet" href="src/input.css"> -->
+    <link rel="stylesheet" href="src/output.css">
+    </head>
+
+<body class="flex flex-col justify-center max-w-screen-lg mx-auto p-4 bg-[#1a202c] text-[#f8f8f2]">
+    <header class="mb-6">
+        <h1 class="text-4xl font-bold mb-8 text-center">개행 문자 포맷팅 도구</h1>
+        <pre class="text-lg text-start whitespace-pre-wrap">- 입력 문자열의 개행 문자를 제거하거나, 반대로 텍스트인 개행 문자를 실제 줄바꿈으로 바꾸거나, 선택한 옵션에 따라 문자열을 수정하여 표시합니다.
+
+- 포맷팅 옵션을 선택하고, 입력창에 문자열을 입력한 후 '포맷팅' 버튼을 누르면 결과가 출력됩니다.</pre>
+    </header>
+    <!-- formatting option section -->
+    <section class="mb-6">
+        <h2 class="text-2xl font-bold mb-4">포맷팅 옵션</h2>
+        <div class="mb-2">
+            <input type="radio" id="option1" name="option" value="1" checked>
+            <label for="option1">1. 개행 문자 제거</label>
+        </div>
+        <div class="mb-2">
+            <input type="radio" id="option2" name="option" value="2">
+            <label for="option2">2. 텍스트 개행 문자(<code>\\r\\n</code>, <code>\\n</code>, <code>\r\n</code>, <code>\r</code>)를 실제 줄바꿈으로 변환</label>
+        </div>
+        <div class="mb-2">
+            <input type="radio" id="option3" name="option" value="3">
+            <label for="option3">3. 개행 문자를 <code>&lt;br&gt;</code> 태그로 변환
+        </div>
+        <div class="mb-2 flex flex-wrap justify-between gap-2">
+            <div>
+                <input type="radio" id="option4" name="option" value="4">
+                <label for="option4">4. 개행 문자를 사용자 지정 태그로 감싸기</label>
+            </div>
+            <select id="tag" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
+                <option value="br">&lt;br&gt;</option>
+                <option value="p">&lt;p&gt;</option>
+                <option value="div">&lt;div&gt;</option>
+                <option value="literal_br">실제 줄바꿈</option>
+            </select>
+        </div>
+        <div class="flex flex-wrap justify-between gap-2">
+            <div>
+                <input type="radio" id="option5" name="option" value="5">
+                <label for="option5">5. 개행 문자를 선택한 문자열로 변환</label>
+            </div>
+            <select id="customTag" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
+                <option value="rn">\r\n</option>
+                <option value="n">\n</option>
+                <option value="literal_rn">실제 줄바꿈 (CRLF)</option>
+                <option value="literal_n">실제 줄바꿈 (LF)</option>
+            </select>
+        </div>
+    </section>
+    <!-- input section -->
+    <section class="mb-6">
+        <header class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">입력</h2>
+            <fieldset class="ml-4 border border-gray-300 rounded-md p-2">
+                <legend class="text-lg font-semibold">공백 처리 옵션</legend>
+                <span class="ml-4">
+                    <input type="radio" id="noTrim" name="trimOption" value="noTrim" checked>
+                    <label for="noTrim">선택 X</label>
+                </span>
+                <span class="ml-2">
+                    <input type="radio" id="trimSpaces" name="trimOption" value="trim">
+                    <label for="trimSpaces">앞뒤 공백 제거</label>
+                </span>
+
+                <span class="ml-2">
+                    <input type="radio" id="removeAllSpaces" name="trimOption" value="removeAll">
+                    <label for="removeAllSpaces">모든 공백 제거</label>
+                </span>
+            </fieldset>
+        </header>
+        </header>
+        <!-- input -->
+        <textarea id="input" rows="10" placeholder="문자를 입력하세요..."></textarea>
+        <div class="flex justify-center gap-4">
+            <button id="formatButton" class="p-2 rounded-md border-2 border-blue-500 active:bg-blue-500 active:text-white">포맷팅</button>
+            <button id="copyButton" class="p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-500 hover:border-blue-500 active:bg-blue-500 active:text-white">결과 복사</button>
+        </div>
+    </section>
+    <!-- output section -->
+    <section class="mb-6">
+        <header class="flex justify-between items-center mb-4 gap-4">
+                <h2 class="text-2xl font-bold">결과</h2>
+                <p id="caption" class="hidden text-center font-semibold p-2 rounded-md border-2"></p>
+        </header>
+        <!-- output -->
+        <textarea id="output" rows="10" placeholder="여기에 결과가 표시됩니다."></textarea>
+    </section>
+    <footer class="text-center">
+        <p>개행 문자 포맷팅 도구 <code>v1.0</code></p>
+        <p class="text-lg">© 2024. Developed by SeongJunHan</p>
+        <!-- github issue로 문의 -->
+        <p>버그제보/문의: <a href="https://github.com/fclipse/newline-formatting-tool/issues" class="text-blue-500">Github Issues</a></p>
+        <p>사용된 오픈소스 목록 - <a href="https://github.com/fclipse/newline-formatting-tool/" class="text-blue-500">Github</a>
+            <pre>TailwindCSS</pre>
+        </p>
+    </footer>
+    <script src="src/main.js"></script>
+</body>
+</html>
