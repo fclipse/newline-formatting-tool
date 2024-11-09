@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://newline-formatting-tool.vercel.app/sitemap.xml
