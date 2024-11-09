@@ -55,7 +55,11 @@
     <!-- input section -->
     <section class="mb-6">
         <header class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-bold">입력</h2>
+            <div class="flex gap-8">
+                <h2 class="text-2xl font-bold flex items-center">입력</h2>
+                <p id="saveNotification" class="hidden text-center font-semibold p-2 rounded-md border-2 border-green-500 text-green-500">임시 저장되었습니다. <br>새로고침해도 결과 텍스트는 유지됩니다.</p>
+            </div>
+
             <fieldset class="ml-4 border border-gray-300 rounded-md p-2">
                 <legend class="text-lg font-semibold">공백 처리 옵션</legend>
                 <span class="ml-4">
@@ -80,7 +84,7 @@
             <button id="copyButton" class="p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-500 hover:border-blue-500 active:bg-blue-500 active:text-white">결과 복사</button>
             <button id="clearStorageButton" class="p-2 rounded-md border-2 border-red-500 focus:outline-none focus:border-red-500 hover:border-red-500 active:bg-red-500 active:text-white">저장된 텍스트 비우기</button>
         </div>
-        <p id="saveNotification" class="hidden text-center font-semibold p-2 rounded-md border-2 border-green-500 text-green-500">임시 저장되었습니다. <br>새로고침해도 결과 텍스트는 유지됩니다.</p>
+        
     </section>
     <!-- output section -->
     <section class="mb-6">
@@ -91,13 +95,48 @@
         <!-- output -->
         <textarea id="output" rows="10" placeholder="여기에 결과가 표시됩니다."></textarea>
     </section>
-    <footer class="text-center">
-        <p>개행 문자 포맷팅 도구 <code>v1.0</code></p>
-        <p class="text-lg">© 2024. Developed by SeongJunHan</p>
+
+    <section>
+        <h2 class="text-2xl font-bold mb-4">사용 예시</h2>
+        <div class="flex flex-col gap-6">
+            <pre class="text-lg text-start whitespace-pre-wrap">1. 텍스트 개행 문자를 실제 줄바꿈으로 변환
+- 입력 문자열
+Hello, World!\r\n안녕하세요.\r\n안녕하세요.
+- 포맷팅 결과
+Hello, World!
+안녕하세요.
+안녕하세요.</pre>
+            <pre class="text-lg text-start whitespace-pre-wrap">2. 개행 문자 제거
+- 입력 문자열
+Hello, World!\r\n안녕하세요.\r\n안녕하세요.
+- 포맷팅 결과
+Hello, World!안녕하세요.안녕하세요.</pre>
+            <pre class="text-lg text-start whitespace-pre-wrap">3. 개행 문자를 &lt;br&gt; 태그로 변환
+- 입력 문자열
+Hello, World!\r\n안녕하세요.\r\n안녕하세요.
+- 포맷팅 결과
+Hello, World!<br>안녕하세요.<br>안녕하세요.</pre>
+            <pre class="text-lg text-start whitespace-pre-wrap">4. 개행 문자를 사용자 지정 태그로 감싸기
+- 입력 문자열
+Hello, World!\r\n안녕하세요.\r\n안녕하세요.
+- 포맷팅 결과
+&lt;div&gt;Hello, World!&lt;/div&gt;&lt;div&gt;안녕하세요.&lt;/div&gt;&lt;div&gt;안녕하세요.&lt;/div&gt;</pre>
+            <pre class="text-lg text-start whitespace-pre-wrap">5. 개행 문자를 입력한 문자열로 변환
+- 입력 문자열
+Hello, World!\r\n안녕하세요.\r\n안녕하세요.
+- 포맷팅 결과
+Hello, World! [사용자 지정 문자열] 안녕하세요. [사용자 지정 문자열] 안녕하세요.</pre>
+        </div>
+    </section>
+    <footer class="mt-16 grid grid-cols-2 gap-4">
+        <div>개행 문자 포맷팅 도구 <code>v1.0</code></div>
         <!-- github issue로 문의 -->
-        <p>버그제보/문의: <a href="https://github.com/fclipse/newline-formatting-tool/issues" class="text-blue-500">Github Issues</a></p>
-        <p>사용된 오픈소스 목록 - <a href="https://github.com/fclipse/newline-formatting-tool/" class="text-blue-500">Github</a></p>
-        <pre>TailwindCSS</pre>
+        <div>버그제보/문의: <a href="https://github.com/fclipse/newline-formatting-tool/issues" class="text-blue-500">Github Issues</a></div>
+        <div class="text-lg">© 2024. Developed by SeongJunHan</div>
+        <div>사용된 오픈소스 목록 - 
+            <a href="https://github.com/fclipse/newline-formatting-tool/" class="text-blue-500">Github</a>
+            <pre>TailwindCSS</pre>
+        </div>
     </footer>
     <script src="src/main.js"></script>
 </body>
