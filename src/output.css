@@ -752,6 +752,23 @@ code, pre {
   border-radius: 4px;
 }
 
+button {
+  transition: background-color 0.3s, border-color 0.3s;
+  /* 버튼 스타일링 개선 */
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 2px;
+    /* 반응형 디자인 */
+  }
+
+  textarea {
+    font-size: 14px;
+    /* 반응형 디자인 */
+  }
+}
+
 .hover\:border-blue-500:hover {
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity));

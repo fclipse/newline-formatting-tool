@@ -22,3 +22,14 @@ code, pre {
     padding: 2px 4px;
     border-radius: 4px;
 }
+button {
+    transition: background-color 0.3s, border-color 0.3s; /* 버튼 스타일링 개선 */
+}
+@media (max-width: 600px) {
+    body {
+        padding: 2px; /* 반응형 디자인 */
+    }
+    textarea {
+        font-size: 14px; /* 반응형 디자인 */
+    }
+}

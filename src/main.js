@@ -11,7 +11,8 @@ const option = document.querySelectorAll('input[name="option"]');
 const customTag = document.querySelector('#customTag');
 const tag = document.querySelector('#tag');
 
-let timer; // 전역 변수로 timer 선언
+let formatStringTimer = null;  // formatString() 함수를 debounce하기 위한 타이머
+let showNotificationTimer = null;  // notification을 debounce하기 위한 타이머
 const NOTIFICATION_SHOW_TIME = 2 * 1000; // 2초
 
 window.onload = () => {
@@ -45,7 +46,7 @@ window.onload = () => {
     // 2. input 및 option 값 바뀌면 caption 숨기게
     input.addEventListener('input', () => {
         caption.style.display = 'none';
-        debounce(formatString, 300)(); // 실시간 미리보기
+        debounce(formatString, 300, formatStringTimer)(); // 실시간 미리보기
     });
     option.forEach((radio) => {
         radio.addEventListener('change', () => {
@@ -61,7 +62,7 @@ window.onload = () => {
             } else {
                 customTag.disabled = true;
             }
-            debounce(formatString, 300)(); // 실시간 미리보기
+            debounce(formatString, 300, formatStringTimer)(); // 실시간 미리보기
         });
     });
 };
@@ -131,9 +132,11 @@ async function formatString() {
     // Save formatted text to localStorage
     localStorage.setItem('formattedText', formattedText);
     // Show save notification
-    saveNotification.style.display = 'block';
-    await delay(NOTIFICATION_SHOW_TIME);
-    saveNotification.style.display = 'none';
+    // saveNotification.style.display = 'block';
+    setNotification('block');
+    console.log(`showNotificationTimer: ${showNotificationTimer}`);
+    debounce(() => setNotification('none'), 300, showNotificationTimer)();
+    console.log(`showNotificationTimer: ${showNotificationTimer}`);
 }
 
 // 2. 버튼 클릭 시 클립보드로 복사
@@ -151,13 +154,22 @@ function clearLocalStorage() {
     caption.style.display = 'block';
 }
 
+// 4. notification 보여주기
+function setNotification(state) {
+    saveNotification.style.display = state;
+}
+
 // Debounce 함수
-function debounce(func, wait) {
+function debounce(func, wait, timer) {
     return function () {
+        console.log(`timer: ${timer}`);
+
         clearTimeout(timer);
         timer = setTimeout(() => {
             func.apply(this, arguments);
         }, wait);
+
+        console.log(`timer: ${timer}`);
     };
 }
 
