@@ -82,13 +82,13 @@
     - Windows
 
     ```bash
-    ./dist_files
+    ./makeDistFiles
     ```
 
     - Mac/Linux
 
     ```bash
-    ./dist_files.sh
+    ./makeDistFiles.sh
     ```
 
 6. 변경 사항을 커밋하고 푸시합니다.
