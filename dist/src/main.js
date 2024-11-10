@@ -100,7 +100,7 @@ async function formatString() {
     switch (option) {
         case '1':
             // 모든 개행 문자를 실제 줄바꿈(\n)으로 변환
-            formattedText = text.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            formattedText = text.replace(/\\r\\n|\\n|\r\n|\r/g, '\n');
             break;
         case '2':
             // 모든 개행 문자를 제거
@@ -151,6 +151,7 @@ function copyToClipboard() {
 // 3. localStorage 비우기
 function clearLocalStorage() {
     localStorage.removeItem('formattedText');
+    input.value = '';
     output.value = '';
     caption.textContent = '저장된 텍스트가 비워졌습니다.';
     caption.style.display = 'block';
