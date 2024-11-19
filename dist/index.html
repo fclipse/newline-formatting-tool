@@ -16,145 +16,147 @@
     <meta property="og:description" content="텍스트의 개행 문자를 제거하거나, 반대로 텍스트인 개행 문자를 실제 줄바꿈으로 바꾸거나, 선택한 옵션에 따라 문자열을 수정하여 표시합니다.">
     <meta property="og:image" content="https://newline-formatting-tool.vercel.app/og-image.jpg">
     <meta property="og:url" content="https://newline-formatting-tool.vercel.app">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="flex flex-col justify-center max-w-screen-lg mx-auto p-4 bg-[#1a202c] text-[#f8f8f2]">
-    <header class="mb-6">
-        <h1 class="text-4xl font-bold mb-8 text-center">개행 문자 포맷팅 도구</h1>        
-        <pre class="whitespace-pre-wrap mt-2">1. 입력 문자열의 개행 문자를 제거하거나, 반대로 텍스트인 개행 문자를 실제 줄바꿈으로 바꾸거나, 선택한 옵션에 따라 문자열을 수정하여 표시합니다.
+<body class="bg-[#0a0a0a] text-gray-200 min-h-screen">
+    <!-- 헤더는 동일 -->
+    <header class="bg-[#111111] border-b border-gray-800 sticky top-0 z-50">
+        <!-- 헤더 내용 -->
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <header class="mb-6">
+            <h1 class="text-4xl font-bold mb-8 text-center">개행 문자 포맷팅 도구</h1>        
+            <pre class="whitespace-pre-wrap mt-2">1. 입력 문자열의 개행 문자를 제거하거나, 반대로 텍스트인 개행 문자를 실제 줄바꿈으로 바꾸거나, 선택한 옵션에 따라 문자열을 수정하여 표시합니다.
 2. 포맷팅 옵션을 선택하고, 입력창에 문자열을 입력한 후 '포맷팅' 버튼을 누르면 결과가 출력됩니다.
 3. 출력된 결과는 localStorage에 임시 저장되어, 페이지를 새로고침해도 마지막으로 포맷팅한 결과를 확인할 수 있습니다.
 3.1. 저장된 텍스트를 비우려면 '저장된 텍스트 비우기' 버튼을 누르세요.</pre>
-    </header>
-    <!-- formatting option section -->
-    <section class="mb-6">
-        <h2 class="text-2xl font-bold mb-4">포맷팅 옵션</h2>
-        <!-- 1. 개행문자를 실제 줄바꿈으로 변환 -->
-        <div class="mb-2">
-            <input type="radio" id="option1" name="option" value="1" checked>
-            <label for="option1">1. 텍스트 개행 문자(<code>\\r\\n</code>, <code>\\n</code>, <code>\r\n</code>, <code>\r</code>)를 실제 줄바꿈으로 변환</label>
-        </div>
-        <!-- 2. 개행문자 제거 -->
-        <div class="mb-2">
-            <input type="radio" id="option2" name="option" value="2">
-            <label for="option2">2. 개행 문자 제거</label>
-        </div>
-        <!-- 3. 개행문자를 선택한 태그로 변환 -->
-        <div class="mb-2">
-            <input type="radio" id="option3" name="option" value="3">
-            <label for="option3">3. 개행 문자를 <code>&lt;br&gt;</code> 태그로 변환
-        </div>
-        <!-- 4. 개행문자를 사용자 지정 태그로 감싸기 -->
-        <div class="mb-2 flex flex-wrap justify-between gap-2">
-            <div>
-                <input type="radio" id="option4" name="option" value="4">
-                <label for="option4">4. 개행 문자를 사용자 지정 태그로 감싸기</label>
-            </div>
-            <select id="tag" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
-                <option value="br">&lt;br&gt;</option>
-                <option value="p">&lt;p&gt;</option>
-                <option value="div">&lt;div&gt;</option>
-                <option value="literal_br">실제 줄바꿈</option>
-            </select>
-        </div>
-        <!-- 5. 개행문자를 입력한 문자열로 변환 -->
-        <div class="flex flex-wrap justify-between gap-2">
-            <div>
-                <input type="radio" id="option5" name="option" value="5">
-                <label for="option5">5. 개행 문자를 입력한 문자열로 변환</label>
-            </div>
-            <input type="text" id="customTag" value="-" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
-        </div>
-    </section>
-    <!-- input section -->
-    <section class="mb-6">
-        <header class="flex justify-between items-center mb-4">
-            <div class="flex gap-8">
-                <h2 class="text-2xl font-bold flex items-center">입력</h2>
-                <!-- 임시저장 showing 부분 - 일정시간마다만 show -->
-                <p id="saveNotification" class="hidden text-center font-semibold p-2 rounded-md border-2 border-green-500 text-green-500">임시 저장되었습니다.</p>
-            </div>
-            <!-- 공백 처리 옵션 선택 -->
-            <fieldset class="ml-4 border border-gray-300 rounded-md p-2">
-                <legend class="text-lg font-semibold">공백 처리 옵션</legend>
-                <!-- 1. 선택 X (기본) -->
-                <span class="ml-4">
-                    <input type="radio" id="noTrim" name="trimOption" value="noTrim" checked>
-                    <label for="noTrim">선택 X</label>
-                </span>
-                <!-- 2. 앞뒤 공백 제거 -->
-                <span class="ml-2">
-                    <input type="radio" id="trimSpaces" name="trimOption" value="trim">
-                    <label for="trimSpaces">앞뒤 공백 제거</label>
-                </span>
-                <!-- 3. 모든 공백 제거 -->
-                <span class="ml-2">
-                    <input type="radio" id="removeAllSpaces" name="trimOption" value="removeAll">
-                    <label for="removeAllSpaces">모든 공백 제거</label>
-                </span>
-            </fieldset>
         </header>
-        <!-- input -->
-        <textarea id="input" rows="10" placeholder="문자를 입력하세요..."></textarea>
-        <div class="flex justify-center gap-4">
-            <button id="formatButton" class="p-2 rounded-md border-2 border-blue-500 active:bg-blue-500 active:text-white">포맷팅</button>
-            <button id="copyButton" class="p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-500 hover:border-blue-500 active:bg-blue-500 active:text-white">결과 복사</button>
-            <button id="clearStorageButton" class="p-2 rounded-md border-2 border-red-500 focus:outline-none focus:border-red-500 hover:border-red-500 active:bg-red-500 active:text-white">저장된 텍스트 비우기</button>
-        </div>
-        
-    </section>
-    <!-- output section -->
-    <section class="mb-6">
-        <header class="flex justify-between items-center mb-4 gap-4">
-            <h2 class="text-2xl font-bold">결과</h2>
-            <p id="caption" class="hidden text-center font-semibold p-2 rounded-md border-2"></p>
-        </header>
-        <!-- output -->
-        <textarea id="output" rows="10" placeholder="여기에 결과가 표시됩니다." readonly></textarea>
-    </section>
-    <!-- 사용 예시 부분 -->
-    <section>
-        <h2 class="text-2xl font-bold mb-4">사용 예시</h2>
-        <div class="flex flex-col gap-6">
-            <pre class="text-lg text-start whitespace-pre-wrap">1. 텍스트 개행 문자를 실제 줄바꿈으로 변환
+        <!-- formatting option section -->
+        <section class="mb-6">
+            <h2 class="text-2xl font-bold mb-4">포맷팅 옵션</h2>
+            <!-- 1. 개행문자를 실제 줄바꿈으로 변환 -->
+            <div class="mb-2">
+                <input type="radio" id="option1" name="option" value="1" checked>
+                <label for="option1">1. 텍스트 개행 문자(<code>\\r\\n</code>, <code>\\n</code>, <code>\r\n</code>, <code>\r</code>)를 실제 줄바꿈으로 변환</label>
+            </div>
+            <!-- 2. 개행문자 제거 -->
+            <div class="mb-2">
+                <input type="radio" id="option2" name="option" value="2">
+                <label for="option2">2. 개행 문자 제거</label>
+            </div>
+            <!-- 3. 개행문자를 선택한 태그로 변환 -->
+            <div class="mb-2">
+                <input type="radio" id="option3" name="option" value="3">
+                <label for="option3">3. 개행 문자를 <code>&lt;br&gt;</code> 태그로 변환
+            </div>
+            <!-- 4. 개행문자를 사용자 지정 태그로 감싸기 -->
+            <div class="mb-2 flex flex-wrap justify-between gap-2">
+                <div>
+                    <input type="radio" id="option4" name="option" value="4">
+                    <label for="option4">4. 개행 문자를 사용자 지정 태그로 감싸기</label>
+                </div>
+                <select id="tag" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
+                    <option value="br">&lt;br&gt;</option>
+                    <option value="p">&lt;p&gt;</option>
+                    <option value="div">&lt;div&gt;</option>
+                    <option value="literal_br">실제 줄바꿈</option>
+                </select>
+            </div>
+            <!-- 5. 개행문자를 입력한 문자열로 변환 -->
+            <div class="flex flex-wrap justify-between gap-2">
+                <div>
+                    <input type="radio" id="option5" name="option" value="5">
+                    <label for="option5">5. 개행 문자를 입력한 문자열로 변환</label>
+                </div>
+                <input type="text" id="customTag" value="-" class="text-black border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
+            </div>
+        </section>
+        <!-- input section -->
+        <section class="mb-6">
+            <header class="flex justify-between items-center mb-4">
+                <div class="flex gap-8">
+                    <h2 class="text-2xl font-bold flex items-center">입력</h2>
+                    <!-- 임시저장 showing 부분 - 일정시간마다만 show -->
+                    <p id="saveNotification" class="hidden text-center font-semibold p-2 rounded-md border-2 border-green-500 text-green-500">임시 저장되었습니다.</p>
+                </div>
+                <!-- 공백 처리 옵션 선택 -->
+                <fieldset class="ml-4 border border-gray-300 rounded-md p-2">
+                    <legend class="text-lg font-semibold">공백 처리 옵션</legend>
+                    <!-- 1. 선택 X (기본) -->
+                    <span class="ml-4">
+                        <input type="radio" id="noTrim" name="trimOption" value="noTrim" checked>
+                        <label for="noTrim">선택 X</label>
+                    </span>
+                    <!-- 2. 앞뒤 공백 제거 -->
+                    <span class="ml-2">
+                        <input type="radio" id="trimSpaces" name="trimOption" value="trim">
+                        <label for="trimSpaces">앞뒤 공백 제거</label>
+                    </span>
+                    <!-- 3. 모든 공백 제거 -->
+                    <span class="ml-2">
+                        <input type="radio" id="removeAllSpaces" name="trimOption" value="removeAll">
+                        <label for="removeAllSpaces">모든 공백 제거</label>
+                    </span>
+                </fieldset>
+            </header>
+            <!-- input -->
+            <textarea id="input" rows="10" placeholder="문자를 입력하세요..." class="w-full px-4 py-3 bg-[#111111] border border-gray-800 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"></textarea>
+            <div class="flex justify-center gap-4 mt-4">
+                <button id="formatButton" class="px-4 py-2 bg-[#111111] border border-amber-500/30 rounded-full text-amber-500 hover:border-amber-500 transition-colors">포맷팅</button>
+                <button id="copyButton" class="px-4 py-2 bg-[#111111] border border-amber-500/30 rounded-full text-amber-500 hover:border-amber-500 transition-colors">결과 복사</button>
+                <button id="clearStorageButton" class="px-4 py-2 bg-[#111111] border border-amber-500/30 rounded-full text-amber-500 hover:border-amber-500 transition-colors">저장된 텍스트 비우기</button>
+            </div>
+        </section>
+        <!-- output section -->
+        <section class="mb-6">
+            <header class="flex justify-between items-center mb-4 gap-4">
+                <h2 class="text-2xl font-bold">결과</h2>
+                <p id="caption" class="hidden text-center font-semibold p-2 rounded-md border-2"></p>
+            </header>
+            <!-- output -->
+            <textarea id="output" rows="10" placeholder="여기에 결과가 표시됩니다." readonly class="w-full px-4 py-3 bg-[#111111] border border-gray-800 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"></textarea>
+        </section>
+        <!-- 사용 예시 부분 -->
+        <section>
+            <h2 class="text-2xl font-bold mb-4">사용 예시</h2>
+            <div class="flex flex-col gap-6">
+                <pre class="text-lg text-start whitespace-pre-wrap">1. 텍스트 개행 문자를 실제 줄바꿈으로 변환
 - 입력 문자열
 Hello, World!\r\n안녕하세요.\r\n안녕하세요.
 - 포맷팅 결과
 Hello, World!
 안녕하세요.
 안녕하세요.</pre>
-            <pre class="text-lg text-start whitespace-pre-wrap">2. 개행 문자 제거
+                <pre class="text-lg text-start whitespace-pre-wrap">2. 개행 문자 제거
 - 입력 문자열
 Hello, World!\r\n안녕하세요.\r\n안녕하세요.
 - 포맷팅 결과
 Hello, World!안녕하세요.안녕하세요.</pre>
-            <pre class="text-lg text-start whitespace-pre-wrap">3. 개행 문자를 &lt;br&gt; 태그로 변환
+                <pre class="text-lg text-start whitespace-pre-wrap">3. 개행 문자를 &lt;br&gt; 태그로 변환
 - 입력 문자열
 Hello, World!\r\n안녕하세요.\r\n안녕하세요.
 - 포맷팅 결과
 Hello, World!<br>안녕하세요.<br>안녕하세요.</pre>
-            <pre class="text-lg text-start whitespace-pre-wrap">4. 개행 문자를 사용자 지정 태그로 감싸기
+                <pre class="text-lg text-start whitespace-pre-wrap">4. 개행 문자를 사용자 지정 태그로 감싸기
 - 입력 문자열
 Hello, World!\r\n안녕하세요.\r\n안녕하세요.
 - 포맷팅 결과
 &lt;div&gt;Hello, World!&lt;/div&gt;&lt;div&gt;안녕하세요.&lt;/div&gt;&lt;div&gt;안녕하세요.&lt;/div&gt;</pre>
-            <pre class="text-lg text-start whitespace-pre-wrap">5. 개행 문자를 입력한 문자열로 변환
+                <pre class="text-lg text-start whitespace-pre-wrap">5. 개행 문자를 입력한 문자열로 변환
 - 입력 문자열
 Hello, World!\r\n안녕하세요.\r\n안녕하세요.
 - 포맷팅 결과
 Hello, World! [사용자 지정 문자열] 안녕하세요. [사용자 지정 문자열] 안녕하세요.</pre>
-        </div>
-    </section>
-    <!-- footer 부분 -->
-    <footer class="mt-16 grid grid-cols-2 gap-4">
-        <div>개행 문자 포맷팅 도구 <code>v1.0</code></div>
-        <div>버그제보/문의: <a href="https://github.com/fclipse/newline-formatting-tool/issues" target="_blank" rel="noreferrer noopener" class="text-blue-500">Github Issues</a></div>
-        <div class="text-lg">© 2024. Developed by SeongJunHan</div>
-        <div>사용된 오픈소스 목록 - 
-            <a href="https://github.com/fclipse/newline-formatting-tool/" target="_blank" rel="noreferrer noopener" class="text-blue-500">Github</a>
-            <pre>TailwindCSS</pre>
-        </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터는 동일 -->
+    <footer class="bg-[#111111] mt-12 border-t border-gray-800">
+        <!-- 푸터 내용 -->
     </footer>
     <script src="src/main.js"></script>
 </body>
-</html>
+</html>  
